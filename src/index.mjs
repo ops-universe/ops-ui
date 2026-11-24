@@ -1,4 +1,6 @@
 import React,{createContext,useContext,useEffect,useState} from 'react';
+import {MobileNavigation} from './advanced.mjs';
+export {SearchDialog,searchEntries,MobileNavigation,FeatureCard,CodeBlock,Terminal,Steps,DocsLayout} from './advanced.mjs';
 import {resolvePalette,paletteStyle} from './palettes.mjs';
 export {palettes,resolvePalette,paletteStyle} from './palettes.mjs';
 const h=React.createElement;
@@ -20,10 +22,10 @@ export function Button({href,children,variant='primary',...props}){
  return href?h('a',{...props,className,href},children):h('button',{type:'button',...props,className},children);
 }
 export function Header({brand='Ops Universe',home='/',links=[],children}){
- return h('header',{className:'ops-header'},h('a',{className:'ops-brand',href:home},brand),h('nav',{'aria-label':'Main navigation'},links.map(x=>h('a',{key:x.href,href:x.href,'aria-current':x.current?'page':undefined},x.label))),children);
+ return h('header',{className:'ops-header'},h('a',{className:'ops-brand',href:home},brand),h('nav',{className:'ops-desktop-nav','aria-label':'Main navigation'},links.map(x=>h('a',{key:x.href,href:x.href,'aria-current':x.current?'page':undefined},x.label))),h(MobileNavigation,{links}),children);
 }
-export function Hero({eyebrow,title,description,actions,visual}){
- return h('section',{className:'ops-hero'},h('div',null,h('p',{className:'ops-eyebrow'},eyebrow),h('h1',null,title),h('p',null,description),h('div',{className:'ops-actions'},actions)),visual);
+export function Hero({eyebrow,title,description,actions,visual,animate=false}){
+ return h('section',{className:'ops-hero'+(animate?' ops-enter':'')},h('div',null,h('p',{className:'ops-eyebrow'},eyebrow),h('h1',null,title),h('p',null,description),h('div',{className:'ops-actions'},actions)),visual);
 }
 export function Card({title,children}){return h('article',{className:'ops-card'},h('h2',null,title),children);}
-export function Footer({brand='Ops Universe',links=[]}){return h('footer',{className:'ops-footer'},h('strong',null,brand),h('nav',{'aria-label':'Footer navigation'},links.map(x=>h('a',{key:x.href,href:x.href},x.label))));}
+export function Footer({brand='Ops Universe',links=[]}){return h('footer',{className:'ops-footer'},h('div',null,h('strong',null,brand),description&&h('p',null,description)),h('nav',{'aria-label':'Footer navigation'},links.map(x=>h('a',{key:x.href,href:x.href},x.label))),children);}

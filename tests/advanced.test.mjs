@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';import React from 'react';import {renderToStaticMarkup as render} from 'react-dom/server';import {SearchDialog,searchEntries,MobileNavigation,FeatureCard,CodeBlock,Terminal,Steps,DocsLayout,Hero,Footer} from '../src/index.mjs';
+const h=React.createElement;const entries=[{title:'Evaluation guide',href:'/eval/',description:'Regression tests',keywords:['AI']},{title:'Deployment',href:'/deploy/',description:'Release'}];
+test('search matches multiple terms case insensitively',()=>assert.deepEqual(searchEntries(entries,'AI regression'),[entries[0]]));
+test('empty and unmatched search',()=>{assert.equal(searchEntries(entries,'').length,2);assert.equal(searchEntries(entries,'missing').length,0);});
+test('search has native dialog and labelled input',()=>{const html=render(h(SearchDialog,{entries}));assert.match(html,/<dialog/);assert.match(html,/aria-labelledby=/);assert.match(html,/Search pages/);assert.match(html,/role="status"/);});
+test('mobile nav starts collapsed with disclosure semantics',()=>{const html=render(h(MobileNavigation,{links:[{href:'/docs/',label:'Docs'}]}));assert.match(html,/aria-expanded="false"/);assert.match(html,/aria-controls=/);assert.match(html,/hidden=""/);});
+test('feature card descriptive link',()=>assert.match(render(h(FeatureCard,{title:'Evaluation',href:'/eval/'})),/Explore Evaluation/));
+test('code and terminal escape markup',()=>{assert.match(render(h(CodeBlock,{code:'<script>'})),/&lt;script&gt;/);assert.match(render(h(Terminal,{lines:['one','two']})),/one\ntwo/);});
+test('steps use ordered list and docs has navigation',()=>{assert.match(render(h(Steps,{items:[{title:'Build'}]})),/<ol/);assert.match(render(h(DocsLayout)),/aria-label="Documentation"/);});
+test('hero animation opt in and footer description',()=>{assert.match(render(h(Hero,{animate:true,title:'Hello'})),/ops-enter/);assert.match(render(h(Footer,{description:'Open engineering'})),/Open engineering/);});
