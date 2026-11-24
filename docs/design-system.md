@@ -1,0 +1,3 @@
+# Design system
+
+Warm cream and forest light palette; dark charcoal-green and lime accents. Semantic tokens in src/styles.css. Use native links and buttons, accessible names, keyboard focus, reduced motion and flexible responsive grids. Theme preference is scoped to the provider. Server rendering defaults to the initial theme, then restores preference. Accessibility and contrast still require browser verification. Consume components after pinning a reviewed version; do not claim package availability until published.

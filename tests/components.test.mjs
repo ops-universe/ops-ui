@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import React from 'react';
+import {renderToStaticMarkup as render} from 'react-dom/server';
+import {ThemeProvider,ThemeToggle,Header,Hero,Card,Button,Footer} from '../src/index.mjs';
+const h=React.createElement;
+test('theme controls have accessible group and pressed state',()=>{const html=render(h(ThemeProvider,{initial:'dark'},h(ThemeToggle)));assert.match(html,/data-theme="dark"/);assert.match(html,/<legend>Theme<\/legend>/);assert.match(html,/aria-pressed="true">dark/);});
+test('navigation labels and active link',()=>{const html=render(h(Header,{links:[{href:'/docs/',label:'Docs',current:true}]}));assert.match(html,/aria-label="Main navigation"/);assert.match(html,/aria-current="page"/);});
+test('hero and card expose semantic headings',()=>{assert.match(render(h(Hero,{title:'Build AI'})),/<h1>Build AI<\/h1>/);assert.match(render(h(Card,{title:'Governance'})),/<h2>Governance<\/h2>/);});
+test('button and link semantics',()=>{assert.match(render(h(Button,null,'Run')),/<button type="button"/);assert.match(render(h(Button,{href:'/docs/'},'Docs')),/<a[^>]*href="\/docs\//);});
+test('footer navigation label',()=>assert.match(render(h(Footer)),/aria-label="Footer navigation"/));
