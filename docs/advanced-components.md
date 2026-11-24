@@ -1,0 +1,3 @@
+# Advanced components
+
+Header includes mobile disclosure and desktop navigation. SearchDialog uses native modal dialog, Ctrl/Cmd+K, Escape, focus restoration and local filtered entries. Supply trusted same-site or HTTPS links. Hero animation is opt-in. FeatureCard uses descriptive links. CodeBlock copies explicit text and reports failure. Terminal is a static illustration, not a shell. Steps uses ordered lists. DocsLayout provides labelled navigation. Type declarations and local showcase included. Browser tests and automated axe checks do not establish full accessibility conformance. Visual regression and shared consumer integration remain future work.
