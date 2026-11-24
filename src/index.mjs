@@ -1,13 +1,15 @@
 import React,{createContext,useContext,useEffect,useState} from 'react';
+import {resolvePalette,paletteStyle} from './palettes.mjs';
+export {palettes,resolvePalette,paletteStyle} from './palettes.mjs';
 const h=React.createElement;
 const ThemeContext=createContext(null);
 const valid=['system','light','dark'];
-export function ThemeProvider({children,initial='system'}){
+export function ThemeProvider({children,initial='system',project='universe'}){
  const [choice,setChoice]=useState(valid.includes(initial)?initial:'system');
  const [ready,setReady]=useState(false);
  useEffect(()=>{try{const stored=localStorage.getItem('ops-theme');if(valid.includes(stored))setChoice(stored);}catch{}setReady(true);},[]);
  useEffect(()=>{if(ready)try{localStorage.setItem('ops-theme',choice);}catch{}},[choice,ready]);
- return h(ThemeContext.Provider,{value:{choice,setChoice}},h('div',{className:'ops-root','data-theme':choice},children));
+ return h(ThemeContext.Provider,{value:{choice,setChoice}},h('div',{className:'ops-root','data-theme':choice,'data-project':resolvePalette(project),style:paletteStyle(project)},children));
 }
 export function ThemeToggle(){
  const ctx=useContext(ThemeContext);if(!ctx)throw new Error('ThemeToggle requires ThemeProvider');
