@@ -14,3 +14,7 @@ Import from a reviewed local checkout or pinned Git revision after installing de
 Run `npm run showcase` to explore components and all project palettes locally. Run `npm run typecheck`, `npm run build:showcase`, `npx playwright install chromium`, and `npm run test:browser` for verification. Search uses a caller-provided local index; no network requests. Motion is opt-in and respects reduced motion.
 
 Dependency security: CI fails on high or critical npm audit findings. This is a dependency advisory check, not a full security certification.
+
+## Shared browser acceptance helpers
+
+`browser/helpers.mjs` provides test-only navigation, horizontal-overflow, scoped axe and console/page-error assertions. Use from a pinned reviewed checkout with its existing locked Playwright dependencies. Observe errors before navigation and dispose listeners in finally; assertions must be called after the tested interactions. Keep product-specific scenarios and selectors in the consumer repository. Helpers are not a published runtime package and do not establish complete accessibility conformance, live site health or security certification. First validation target is the UI showcase; product integration remains a separate pilot.
